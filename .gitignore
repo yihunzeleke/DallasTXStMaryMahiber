@@ -2,5 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-.authconfig/
+authconfig/
 .README.html
