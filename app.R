@@ -15,18 +15,17 @@ options(
 # Replace with your Google Sheet ID
 sheet_id <- drive_get("StMaryMahiber_2_18_2025")$id
 
-# Deffine ui 
+# Define ui 
 ui <- page_sidebar(
+  fillable_mobile = TRUE,
   theme = bs_theme(
     version = 5,
     bootswatch = "minty"
   ),
-  fillable_mobile = TRUE,
-  title = "በዳላስ የድንግል ማርያም  ጽዋ ማህበርተኞች መረዳጃ ማህበር",
+  title = "በዳላስ የማርያም ጽዋ ማህበርተኞች መረዳጃ ማህበር",
   sidebar = sidebar(
     title = "Expense Tracker:",
     dateInput("date", "Date", value = Sys.Date()),
-    # selectInput("category", "Categoty", choices = c("Welcome ceremony", "Rent", "Graduation", "Attending a wedding","Newborn visit", "Paying a scik visit", "Other")),
     selectInput("category", "Category", choices = c("እንኳን ደህና መጡ", "ለቤት ኪራይ", "ኮሌጅ ተመራቂዎች", "አዲስ ተጋቢዎች", "ልጅ ሲወለድ", "የታመመ ለመጠየቅ", "ሌሎች")),
     textInput("description", "Description", value = ""),
     selectInput("payment", "Payment Method", choices = c("Cash", "Direct Check", "Zelle or CashApp", "Other"), selected = NULL),
@@ -35,9 +34,9 @@ ui <- page_sidebar(
     actionButton("add", "Add Expense")
   ),
   card(
-    card_header("List of activities"),
-    full_screen = TRUE,
+    full_screen = FALSE,
     max_height = 650,
+    h3("Expense Tracker Table", style = "text-align:center;"),  # Header Title
     DTOutput("expense_table")
   )
 )
