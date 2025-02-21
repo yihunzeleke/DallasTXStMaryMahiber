@@ -1,6 +1,7 @@
 library(shiny)
-library(googlesheets4)
+library(bslib)
 library(DT)
+library(googlesheets4)
 library(googledrive)
 
 # Authenticate with Google Sheets (follow googlesheets4 documentation for setup)
