@@ -15,23 +15,30 @@ options(
 # Replace with your Google Sheet ID
 sheet_id <- drive_get("StMaryMahiber_2_18_2025")$id
 
-# Define UI
-ui <- fluidPage(
-  titlePanel("Expense Tracker"),
-  sidebarLayout(
-    sidebarPanel(
-      dateInput("date", "Date", value = Sys.Date()),
-      #selectInput("category", "Categoty", choices = c("Welcome ceremony", "Rent", "Graduation", "Attending a wedding","Newborn visit", "Paying a scik visit", "Other")),
-      selectInput("category", "Category", choices = c("እንኳን ደህና መጡ", "ለቤት ኪራይ","ኮሌጅ ተመራቂዎች", "አዲስ ተጋቢዎች", "ልጅ ሲወለድ", "የታመመ ለመጠየቅ", "ሌሎች")),
-      textInput("description", "Description", value = ""),
-      selectInput("payment", "Payment Method", choices = c("Cash","Direct Check", "Zelle or CashApp", "Other"), selected = NULL),
-      numericInput("amount", "Amount", value = 0),
-      textAreaInput("notes", label = "Notes", placeholder = "Other Notes"),
-      actionButton("add", "Add Expense")
-    ),
-    mainPanel(
-      DTOutput("expense_table")
-    )
+# Deffine ui 
+ui <- page_sidebar(
+  theme = bs_theme(
+    version = 5,
+    bootswatch = "minty"
+  ),
+  fillable_mobile = TRUE,
+  title = "በዳላስ የድንግል ማርያም  ጽዋ ማህበርተኞች መረዳጃ ማህበር",
+  sidebar = sidebar(
+    title = "Expense Tracker:",
+    dateInput("date", "Date", value = Sys.Date()),
+    # selectInput("category", "Categoty", choices = c("Welcome ceremony", "Rent", "Graduation", "Attending a wedding","Newborn visit", "Paying a scik visit", "Other")),
+    selectInput("category", "Category", choices = c("እንኳን ደህና መጡ", "ለቤት ኪራይ", "ኮሌጅ ተመራቂዎች", "አዲስ ተጋቢዎች", "ልጅ ሲወለድ", "የታመመ ለመጠየቅ", "ሌሎች")),
+    textInput("description", "Description", value = ""),
+    selectInput("payment", "Payment Method", choices = c("Cash", "Direct Check", "Zelle or CashApp", "Other"), selected = NULL),
+    numericInput("amount", "Amount", value = 0),
+    textAreaInput("notes", label = "Notes", placeholder = "Other Notes"),
+    actionButton("add", "Add Expense")
+  ),
+  card(
+    card_header("List of activities"),
+    full_screen = TRUE,
+    max_height = 650,
+    DTOutput("expense_table")
   )
 )
 
@@ -49,7 +56,10 @@ server <- function(input, output, session) {
   
   # Render the editable table
   output$expense_table <- renderDT({
-    datatable(expense_data(), editable = TRUE)
+    datatable(expense_data(), editable = TRUE, 
+    fillContainer = TRUE, 
+     rownames = FALSE,
+     options = list(lengthChange = FALSE, searching = FALSE))
   })
   
   # Observe edits in the table and update Google Sheet
