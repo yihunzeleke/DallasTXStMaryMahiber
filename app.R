@@ -1,8 +1,11 @@
 library(shiny)
+library(shinyjs)
 library(bslib)
 library(DT)
 library(googlesheets4)
 library(googledrive)
+# authentication
+library(shinyauthr)
 
 # Authenticate with Google Sheets (follow googlesheets4 documentation for setup)
 options(
@@ -33,6 +36,7 @@ ui <- page_sidebar(
     textAreaInput("notes", label = "Notes", placeholder = "Other Notes"),
     actionButton("add", "Add Expense")
   ),
+ 
   card(
     full_screen = FALSE,
     max_height = 650,
@@ -43,7 +47,6 @@ ui <- page_sidebar(
 
 # Define Server Logic
 server <- function(input, output, session) {
-  
   # Reactive value to trigger data reload
   trigger <- reactiveVal(0)
   
@@ -79,12 +82,9 @@ server <- function(input, output, session) {
       `Payment Method` = as.character(input$payment),
       Amount = input$amount,
       Notes = as.character(input$notes)
-     
     )
-    
     # Append the new row to the Google Sheet
     sheet_append(sheet_id, new_row, sheet = 1)
-    
     # Reset inputs
     updateDateInput(session, "date", value = Sys.Date())
     updateTextInput(session, "category", value = "")
@@ -92,7 +92,6 @@ server <- function(input, output, session) {
     updateTextInput(session, "payment", value = "")
     updateNumericInput(session, "amount", value = 0)
     updateTextAreaInput(session, "notes", value = "")
-  
     # Invalidate the reactive to reload data
     trigger(trigger() + 1)
   })
