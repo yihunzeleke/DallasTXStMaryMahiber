@@ -12,7 +12,7 @@ options(
   gargle_oauth_email = TRUE,
   gargle_oauth_cache = "authconfig/.secrets"
 )
-# user based system Renvironment variable
+# user based system Environment variable
 user_base_loaded <- jsonlite::fromJSON(Sys.getenv("USER_BASE"))
 user_base <- tibble::tibble(
   user = user_base_loaded[["user"]],
