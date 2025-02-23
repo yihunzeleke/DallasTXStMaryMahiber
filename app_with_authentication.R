@@ -12,12 +12,13 @@ options(
   gargle_oauth_email = TRUE,
   gargle_oauth_cache = "authconfig/.secrets"
 )
-
+# user based system Renvironment variable
+user_base_loaded <- jsonlite::fromJSON(Sys.getenv("USER_BASE"))
 user_base <- tibble::tibble(
-  user = c("yihun", "metalem"),
-  password = c(sodium::password_store("yihun21"), sodium::password_store("metalem21")),
-  permissions = c("admin", "standard"),
-  name = c("Yihun Zeleke", "Metalem Yazachew")
+  user = user_base_loaded[["user"]],
+  password = user_base_loaded[["password"]],
+  permissions = user_base_loaded[["permissions"]],
+  name = user_base_loaded[["name"]]
 )
 
 sheet_id <- drive_get("StMaryMahiber_2_18_2025")$id
