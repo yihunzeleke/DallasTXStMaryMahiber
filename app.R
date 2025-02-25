@@ -12,16 +12,21 @@ options(
   gargle_oauth_email = TRUE,
   gargle_oauth_cache = "authconfig/.secrets"
 )
+
+options(gargle_oauth_email = TRUE)
+gs4_auth(path = "stmaryr-0b787a4ad0dc.json")
+drive_auth(path = "stmaryr-0b787a4ad0dc.json")
 # user based system Environment variable
-user_base_loaded <- jsonlite::fromJSON(Sys.getenv("USER_BASE"))
+# user_base_loaded <- jsonlite::fromJSON(Sys.getenv("USER_BASE"))
 user_base <- tibble::tibble(
-  user = user_base_loaded[["user"]],
-  password = user_base_loaded[["password"]],
-  permissions = user_base_loaded[["permissions"]],
-  name = user_base_loaded[["name"]]
+  user = c("yihun", "metalem"),
+  password = c(sodium::password_store("yihun21"), sodium::password_store("metalem21")),
+  permissions = c("admin", "standard"),
+  name = c("Yihun Zeleke", "Metalem Yazachew")
 )
 
-sheet_id <- drive_get("StMaryMahiber_2_18_2025")$id
+# sheet_id <- drive_get("StMaryMahiber")$id
+sheet_id <- "14IlZf_5dPNwVrDPUjV68Rp6p-a4pd11mytAEtkiDAD0"
 
 # Modified UI with proper hidden wrapper
 ui <- tagList(
